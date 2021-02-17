@@ -36,7 +36,7 @@ internal class SlideOutAnimation(override var view: View) :Animation(),
     /**
      * @return The interpolator of the entire animation.
      */
-    var interpolator: TimeInterpolator? = AccelerateDecelerateInterpolator()
+    var interpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
 
     /**
      * @return The duration of the entire animation.
@@ -117,7 +117,7 @@ internal class SlideOutAnimation(override var view: View) :Animation(),
      * @param interpolator
      * The interpolator of the entire animation to set.
      */
-    override fun setInterpolator(interpolator: TimeInterpolator?): SlideOutAnimation {
+    override fun setInterpolator(interpolator: TimeInterpolator): SlideOutAnimation {
         this.interpolator = interpolator
         return this
     }

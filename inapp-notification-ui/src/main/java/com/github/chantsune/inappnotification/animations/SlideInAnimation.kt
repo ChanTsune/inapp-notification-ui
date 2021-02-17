@@ -31,7 +31,7 @@ internal class SlideInAnimation(override var view: View) : Animation(),
     /**
      * @return The interpolator of the entire animation.
      */
-    var interpolator: TimeInterpolator? = AccelerateDecelerateInterpolator()
+    var interpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
 
     /**
      * @return The duration of the entire animation.
@@ -116,7 +116,7 @@ internal class SlideInAnimation(override var view: View) : Animation(),
      * @param interpolator
      * The interpolator of the entire animation to set.
      */
-    override fun setInterpolator(interpolator: TimeInterpolator?): SlideInAnimation {
+    override fun setInterpolator(interpolator: TimeInterpolator): SlideInAnimation {
         this.interpolator = interpolator
         return this
     }
