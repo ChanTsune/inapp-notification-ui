@@ -1,0 +1,3 @@
+include ':inapp-notification-ui'
+include ':demo'
+rootProject.name = "InAppNotificationUI"
