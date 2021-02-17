@@ -8,7 +8,7 @@ import android.view.View
  */
 internal abstract class Animation {
 
-    open var view: View? = null
+    open lateinit var view: View
 
     /**
      * This method animates the properties of the view specific to the Animation

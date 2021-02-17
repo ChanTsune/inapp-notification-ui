@@ -10,9 +10,9 @@ import android.animation.TimeInterpolator
  */
 internal interface Combinable {
     fun animate()
-    val animatorSet: AnimatorSet?
-    fun setInterpolator(interpolator: TimeInterpolator?): Animation?
+    val animatorSet: AnimatorSet
+    fun setInterpolator(interpolator: TimeInterpolator): Animation
     val duration: Long
-    fun setDuration(duration: Long): Animation?
-    fun setListener(listener: AnimationListener?): Animation?
+    fun setDuration(duration: Long): Animation
+    fun setListener(listener: AnimationListener?): Animation
 }
