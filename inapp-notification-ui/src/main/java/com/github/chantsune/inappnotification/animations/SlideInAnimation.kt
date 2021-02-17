@@ -4,7 +4,6 @@ import android.animation.*
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-
 /**
  * This animation causes the view to slide in from the borders of the screen.
  *
@@ -17,7 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
  * @param view
  * The view to be animated.
  */
-internal class SlideInAnimation(override var view: View?) : com.github.chantsune.inappnotification.animations.Animation(),
+internal class SlideInAnimation(override var view: View) : Animation(),
     Combinable {
     /**
      * The available directions to slide in from are `DIRECTION_LEFT`
@@ -51,33 +50,33 @@ internal class SlideInAnimation(override var view: View?) : com.github.chantsune
 
     override val animatorSet: AnimatorSet
         get() {
-            var parentView = view!!.parent as ViewGroup
-            val rootView = view!!.rootView as ViewGroup
+            var parentView = view.parent as ViewGroup
+            val rootView = view.rootView as ViewGroup
             while (parentView != rootView) {
                 parentView.clipChildren = false
                 parentView = parentView.parent as ViewGroup
             }
             rootView.clipChildren = false
             val locationView = IntArray(2)
-            view!!.getLocationOnScreen(locationView)
+            view.getLocationOnScreen(locationView)
             var slideAnim: ObjectAnimator? = null
             when (direction) {
                 DIRECTION_LEFT -> slideAnim = ObjectAnimator.ofFloat(
                     view,
                     View.X,
-                    (-locationView[0] - view!!.width).toFloat(),
-                    view!!.x
+                    (-locationView[0] - view.width).toFloat(),
+                    view.x
                 )
                 DIRECTION_RIGHT -> slideAnim =
-                    ObjectAnimator.ofFloat(view, View.X, rootView.right.toFloat(), view!!.x)
+                    ObjectAnimator.ofFloat(view, View.X, rootView.right.toFloat(), view.x)
                 DIRECTION_UP -> slideAnim = ObjectAnimator.ofFloat(
                     view,
                     View.Y,
-                    (-locationView[1] - view!!.height).toFloat(),
-                    view!!.y
+                    (-locationView[1] - view.height).toFloat(),
+                    view.y
                 )
                 DIRECTION_DOWN -> slideAnim =
-                    ObjectAnimator.ofFloat(view, View.Y, rootView.bottom.toFloat(), view!!.y)
+                    ObjectAnimator.ofFloat(view, View.Y, rootView.bottom.toFloat(), view.y)
                 else -> {
                 }
             }
@@ -87,7 +86,7 @@ internal class SlideInAnimation(override var view: View?) : com.github.chantsune
             slideSet.duration = duration
             slideSet.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
-                    view!!.visibility = View.VISIBLE
+                    view.visibility = View.VISIBLE
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
