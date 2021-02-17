@@ -1,7 +1,7 @@
 package com.github.chantsune.inappnotification.views
 
 /** Interface that defines the behavior of the main content of a transient bottom bar.  */
-interface ContentViewCallback {
+internal interface ContentViewCallback {
     /**
      * Animates the content of the transient bottom bar in.
      *

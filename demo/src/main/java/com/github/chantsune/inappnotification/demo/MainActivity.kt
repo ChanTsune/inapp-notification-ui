@@ -16,12 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         findViewById<Button>(R.id.button).also { button ->
             button.setOnClickListener {
-//                Snackbar.make(button, "Text", 1000).show()
-//                return@setOnClickListener
-                InAppNotification.make(button).apply {
-                    stayingDuration = 4000
-                    setContentView(R.layout.view_sample)
-                }.show()
+                InAppNotification.make(button)
+                    .setAnimationDuration(500)
+                    .setStayingDuration(4000)
+                    .setContentView(R.layout.view_sample)
+                    .show()
             }
         }
     }

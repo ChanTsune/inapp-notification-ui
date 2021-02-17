@@ -4,7 +4,7 @@ import android.view.MotionEvent
 import android.view.View
 
 
-class FlickListener constructor(
+internal class FlickListener constructor(
     private val listener: Listener,
     private val play: Float = DEFAULT_PLAY
 ) :

@@ -6,7 +6,7 @@ import android.view.View
  * The parent class of all animation classes.
  *
  */
-abstract class Animation {
+internal abstract class Animation {
 
     open var view: View? = null
 

@@ -17,7 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
  * @param view
  * The view to be animated.
  */
-class SlideInAnimation(override var view: View?) : com.github.chantsune.inappnotification.animations.Animation(),
+internal class SlideInAnimation(override var view: View?) : com.github.chantsune.inappnotification.animations.Animation(),
     Combinable {
     /**
      * The available directions to slide in from are `DIRECTION_LEFT`

@@ -12,40 +12,47 @@ import com.github.chantsune.inappnotification.animations.SlideInAnimation
 import com.github.chantsune.inappnotification.animations.SlideOutAnimation
 import com.github.chantsune.inappnotification.views.NotificationContainerLayout
 import android.os.Handler
+import com.github.chantsune.inappnotification.listeners.FlickListener
 
-class InAppNotification private constructor(
+public class InAppNotification private constructor(
     private val context: Context,
     private val targetParent: ViewGroup,
-    private val view: NotificationContainerLayout,
+    internal val view: NotificationContainerLayout,
 ) {
 
-    var stayingDuration: Long = 2000
+    public var stayingDuration: Long = DEFAULT_STAYING_DURATION
+        private set
+    public var animationDuration: Long = DEFAULT_ANIMATION_DURATION
+        private set
 
-    fun setContentView(contentView: View): InAppNotification {
+    internal val handler = Handler(Looper.getMainLooper())
+
+    internal fun setContentView(contentView: View): InAppNotification {
         view.removeAllViews()
         view.addView(contentView)
         return this
     }
-    fun setContentView(resource: Int): InAppNotification {
-        val inflater = LayoutInflater.from(view.context).inflate(resource, view)
+    public fun setStayingDuration(milliseconds: Long): InAppNotification {
+        stayingDuration = milliseconds
+        return this
+    }
+    public fun setAnimationDuration(milliseconds: Long): InAppNotification {
+        animationDuration = milliseconds
         return this
     }
 
-    fun show() {
+    public fun setContentView(resource: Int): InAppNotification {
+        view.removeAllViews()
+        LayoutInflater.from(view.context).inflate(resource, view)
+        return this
+    }
+
+    public fun show() {
         showView()
     }
 
     private fun showView() {
-
         if (view.parent == null) {
-            val lp = view.layoutParams
-            if (lp is CoordinatorLayout.LayoutParams) {
-                // setUpBehavior(lp)
-            }
-
-//            extraBottomMarginAnchorView = calculateBottomMarginForAnchorView()
-//            updateMargins()
-
             view.visibility = View.INVISIBLE
             targetParent.addView(view)
         }
@@ -63,7 +70,7 @@ class InAppNotification private constructor(
         }
     }
 
-    private fun shouldAnimate():Boolean {
+    private fun shouldAnimate(): Boolean {
         return true
     }
 
@@ -77,25 +84,24 @@ class InAppNotification private constructor(
     }
 
     private fun startSlideInAnimation() {
-        view.startSlideIn(stayingDuration)
-//        SlideInAnimation(view)
-//            .setDirection(Animation.DIRECTION_UP)
-//            .setListener {
-//                Handler(Looper.getMainLooper()).postDelayed({
-//                    startSlideOutAnimation()
-//                }, stayingDuration)
-//            }
-//            .animate()
+        SlideInAnimation(view)
+            .setDuration(animationDuration)
+            .setDirection(Animation.DIRECTION_UP)
+            .setListener {
+                handler.postDelayed(runSlideOut, stayingDuration)
+            }
+            .animate()
     }
 
     private fun startSlideOutAnimation() {
-//        SlideOutAnimation(view)
-//            .setDirection(Animation.DIRECTION_UP)
-//            .setListener {
-//                hideView()
-////                onViewHide()
-//            }
-//            .animate()
+        SlideOutAnimation(view)
+            .setDuration(animationDuration)
+            .setDirection(Animation.DIRECTION_UP)
+            .setListener {
+                hideView()
+//                onViewHide()
+            }
+            .animate()
     }
 
     private fun hideView() {
@@ -103,17 +109,41 @@ class InAppNotification private constructor(
         targetParent.removeView(view)
     }
 
+    private val runSlideOut: Runnable = Runnable {
+        startSlideOutAnimation()
+    }
 
-    companion object {
-        fun make(view: View): InAppNotification {
+
+    public companion object {
+
+        private const val DEFAULT_ANIMATION_DURATION: Long = 1000
+        private const val DEFAULT_STAYING_DURATION: Long = 2000
+
+        public fun make(view: View): InAppNotification {
             val parent = findSuitableParent(view)
                 ?: throw IllegalArgumentException("No suitable parent found from the given view. Please provide a valid view.")
             val context = parent.context
             val inflater = LayoutInflater.from(context)
-            val container = inflater.inflate(R.layout.inapp_notification_default_content_view, parent, false) as? NotificationContainerLayout
+            val container = inflater.inflate(
+                R.layout.inapp_notification_default_content_view,
+                parent,
+                false
+            ) as? NotificationContainerLayout
                 ?: throw IllegalStateException("Internal Layout container was inflated.")
             // context, parent, content, content
-            return InAppNotification(context, parent, container)
+            return InAppNotification(context, parent, container).apply {
+                this.view.setOnTouchListener(FlickListener(object: FlickListener.Listener {
+                    override fun onFlickToLeft() {}
+                    override fun onFlickToRight() {}
+                    override fun onFlickToUp() {
+                        handler.removeCallbacks(runSlideOut)
+                        startSlideOutAnimation()
+                    }
+                    override fun onFlickToDown() {}
+
+                }))
+
+            }
         }
 
         private fun findSuitableParent(view: View): ViewGroup? {

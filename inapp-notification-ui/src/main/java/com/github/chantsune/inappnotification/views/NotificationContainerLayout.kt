@@ -10,42 +10,4 @@ import com.github.chantsune.inappnotification.listeners.FlickListener
 
 internal class NotificationContainerLayout(c: Context, attrs: AttributeSet? = null) :
     LinearLayout(c, attrs) {
-
-    init {
-        setOnTouchListener(FlickListener(object: FlickListener.Listener {
-            override fun onFlickToLeft() {
-            }
-
-            override fun onFlickToRight() {
-            }
-
-            override fun onFlickToUp() {
-                handler.removeCallbacks(runSlideOut)
-                startSlideOut()
-            }
-
-            override fun onFlickToDown() {
-            }
-
-        }))
-    }
-
-    private val runSlideOut: Runnable = Runnable {
-        startSlideOut()
-    }
-
-    fun startSlideIn(stayingDuration: Long) {
-        SlideInAnimation(this)
-            .setDirection(Animation.DIRECTION_UP)
-            .setListener {
-                handler.postDelayed(runSlideOut, stayingDuration)
-            }.animate()
-
-    }
-
-    fun startSlideOut() {
-        SlideOutAnimation(this)
-            .setDirection(Animation.DIRECTION_UP)
-            .animate()
-    }
 }

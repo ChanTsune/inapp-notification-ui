@@ -8,7 +8,7 @@ import android.animation.TimeInterpolator
  * to animate together.
  *
  */
-interface Combinable {
+internal interface Combinable {
     fun animate()
     val animatorSet: AnimatorSet?
     fun setInterpolator(interpolator: TimeInterpolator?): Animation?
