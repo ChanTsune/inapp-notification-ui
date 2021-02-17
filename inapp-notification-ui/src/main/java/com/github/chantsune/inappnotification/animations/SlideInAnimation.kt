@@ -90,9 +90,7 @@ internal class SlideInAnimation(override var view: View) : Animation(),
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
-                    if (listener != null) {
-                        listener!!.onAnimationEnd(this@SlideInAnimation)
-                    }
+                    listener?.onAnimationEnd(this@SlideInAnimation)
                 }
             })
             return slideSet

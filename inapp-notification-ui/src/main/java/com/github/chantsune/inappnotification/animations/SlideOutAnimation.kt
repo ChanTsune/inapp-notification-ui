@@ -91,9 +91,7 @@ internal class SlideOutAnimation(override var view: View) :Animation(),
                 override fun onAnimationEnd(animation: Animator) {
                     view.visibility = View.INVISIBLE
                     slideAnim!!.reverse()
-                    if (listener != null) {
-                        listener!!.onAnimationEnd(this@SlideOutAnimation)
-                    }
+                    listener?.onAnimationEnd(this@SlideOutAnimation)
                 }
             })
             return slideSet
