@@ -5,7 +5,7 @@ package com.github.chantsune.inappnotification.animations
  *
  * @author Phu
  */
-interface AnimationListener {
+fun interface AnimationListener {
     /**
      * This method is called when the animation ends.
      *
