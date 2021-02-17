@@ -4,6 +4,7 @@ import android.animation.*
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.github.chantsune.inappnotification.ktx.locationOnScreen
 
 /**
  * This animation causes the view to slide out to the borders of the screen. On
@@ -63,20 +64,19 @@ internal class SlideOutAnimation(override var view: View) :Animation(),
                 parentView = parentView.parent as ViewGroup
             }
             rootView.clipChildren = false
-            val locationView = IntArray(2)
-            view.getLocationOnScreen(locationView)
+            val viewLocation = view.locationOnScreen
             when (direction) {
                 DIRECTION_LEFT -> slideAnim = ObjectAnimator.ofFloat(
                     view,
                     View.X,
-                    (-locationView[0] - view.width).toFloat()
+                    (-viewLocation.x - view.width).toFloat()
                 )
                 DIRECTION_RIGHT -> slideAnim =
                     ObjectAnimator.ofFloat(view, View.X, rootView.right.toFloat())
                 DIRECTION_UP -> slideAnim = ObjectAnimator.ofFloat(
                     view,
                     View.Y,
-                    (-locationView[1] - view.height).toFloat()
+                    (-viewLocation.y - view.height).toFloat()
                 )
                 DIRECTION_DOWN -> slideAnim =
                     ObjectAnimator.ofFloat(view, View.Y, rootView.bottom.toFloat())
