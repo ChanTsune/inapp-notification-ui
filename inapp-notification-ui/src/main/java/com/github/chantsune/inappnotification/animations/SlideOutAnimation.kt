@@ -10,8 +10,6 @@ import com.github.chantsune.inappnotification.ktx.locationOnScreen
  * This animation causes the view to slide out to the borders of the screen. On
  * animation end, the view is restored to its original state and is set to
  * `View.INVISIBLE`.
- *
- * @author SiYao
  */
 /**
  * This animation causes the view to slide out to the borders of the screen.

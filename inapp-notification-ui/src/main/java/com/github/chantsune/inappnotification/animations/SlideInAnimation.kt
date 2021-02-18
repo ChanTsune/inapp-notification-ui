@@ -8,8 +8,6 @@ import com.github.chantsune.inappnotification.ktx.locationOnScreen
 
 /**
  * This animation causes the view to slide in from the borders of the screen.
- *
- * @author SiYao
  */
 /**
  * This animation causes the view to slide in from the borders of the

@@ -2,8 +2,6 @@ package com.github.chantsune.inappnotification.animations
 
 /**
  * This interface is a custom listener to determine the end of an animation.
- *
- * @author Phu
  */
 internal fun interface AnimationListener {
     /**
